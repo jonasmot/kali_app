@@ -6,4 +6,7 @@ export class CreateTreinoDto {
 
   @ApiProperty({ example: 'Puxada / Altas Repetições' })
   categoria!: string;
+
+  @ApiProperty({ required: false, example: [{ id: '1', concluido: false }] })
+  exercicios?: any;
 }
