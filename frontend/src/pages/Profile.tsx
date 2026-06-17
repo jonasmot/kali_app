@@ -3,6 +3,7 @@ import '../App.css';
 import { useAuth } from '../contexts/AuthContext';
 import { SegmentedControl } from '../components/SegmentedControl';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../config';
 interface Treino {
   id: number;
   nome: string;
@@ -62,7 +63,7 @@ export function Profile() {
   const fetchTreinos = async () => {
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:3000/treino', {
+      const res = await fetch(`${API_URL}/treino`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -89,7 +90,7 @@ export function Profile() {
 
     const exerciciosFormatados = selectedWorkoutIds.map(id => ({ id, concluido: false }));
     try {
-      const res = await fetch('http://localhost:3000/treino', {
+      const res = await fetch(`${API_URL}/treino`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ nome, categoria, exercicios: exerciciosFormatados }),
@@ -117,7 +118,7 @@ export function Profile() {
     });
 
     try {
-      const res = await fetch(`http://localhost:3000/treino/${treinoId}`, {
+      const res = await fetch(`${API_URL}/treino/${treinoId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ nome: editNome, categoria: editCategoria, exercicios: exerciciosFormatados }),
@@ -146,7 +147,7 @@ export function Profile() {
 
     // Salva no banco de dados
     try {
-      await fetch(`http://localhost:3000/treino/${treinoId}`, {
+      await fetch(`${API_URL}/treino/${treinoId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ exercicios: novosExercicios }),
@@ -163,7 +164,7 @@ export function Profile() {
     setTreinos(prev => prev.filter(t => t.id !== treinoId));
 
     try {
-      await fetch(`http://localhost:3000/treino/${treinoId}`, {
+      await fetch(`${API_URL}/treino/${treinoId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
