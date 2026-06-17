@@ -29,7 +29,7 @@ export function Login() {
 
       const data = await response.json();
       login(data.access_token, data.usuario);
-      navigate('/dashboard');
+      navigate('/');
     } catch (err: any) {
       setError(err.message || 'Erro ao realizar login');
     } finally {

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 :root {
   --bg-primary: #02050a;      /* Deep midnight almost black */
@@ -8,13 +8,13 @@
   --text-primary: #e2e8f0;    /* Silver/Pale white */
   --text-secondary: #64748b;  /* Muted slate */
   
-  /* Somber silver/moonlight accent */
+  /* Sporty silver/moonlight accent */
   --accent-color: #cbd5e1;
   --accent-glow: rgba(203, 213, 225, 0.15);
-  --danger-color: #881337;    /* Deep dark crimson */
+  --danger-color: #e11d48;    /* Sporty crimson */
   
-  --font-main: 'Cormorant Garamond', serif;
-  --font-heading: 'Cinzel', serif;
+  --font-main: 'Roboto', sans-serif;
+  --font-heading: 'Roboto', sans-serif;
 }
 
 * {
@@ -52,6 +52,7 @@ input, select, textarea {
 
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);

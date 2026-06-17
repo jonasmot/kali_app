@@ -2,8 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import '../App.css';
 import { useAuth } from '../contexts/AuthContext';
 import { SegmentedControl } from '../components/SegmentedControl';
-import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 interface Treino {
   id: number;
   nome: string;
@@ -57,9 +56,11 @@ export function Profile() {
     );
   };
 
-  const { token } = useAuth();
+  const { token, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const fetchTreinos = async () => {
+    if (!token) return;
     try {
       const res = await fetch('http://localhost:3000/treino', {
         headers: { 'Authorization': `Bearer ${token}` }
@@ -75,10 +76,14 @@ export function Profile() {
 
   useEffect(() => {
     fetchTreinos();
-  }, []);
+  }, [token]);
 
   const handleCreateTreino = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
     if (!nome || !categoria) return;
     setIsLoading(true);
 
@@ -189,15 +194,9 @@ export function Profile() {
         display: 'flex', 
         justifyContent: 'center', 
         alignItems: 'center', 
-        padding: '2rem 5%', 
+        padding: '1.5rem 1rem', 
         position: 'relative' 
       }}>
-        <div style={{ position: 'absolute', left: '5%' }}>
-           <Link to="/dashboard" style={{ color: 'var(--text-secondary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-heading)' }}>
-             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-             Visão Geral
-           </Link>
-        </div>
 
         <SegmentedControl 
           options={['Library', `My Workout (${selectedWorkoutIds.length})`]} 
@@ -207,7 +206,7 @@ export function Profile() {
       </header>
 
       {/* Main Content Space */}
-      <main style={{ padding: '0 5%', flex: 1 }}>
+      <main style={{ padding: '0 1rem', flex: 1 }}>
         
         {/* Category Filters row */}
         {activeTab === 'Library' && (
@@ -262,8 +261,14 @@ export function Profile() {
                  Nenhum conhecimento registrado sob essa escola.
                </p>
             ) : (
-              filteredLibrary.map((video) => (
-                <div key={video.id} className={viewFormat === 'reels' ? 'reels-card' : 'square-card'}>
+              filteredLibrary.map((video) => {
+                const isSelected = selectedWorkoutIds.includes(video.id);
+                return (
+                <div 
+                  key={video.id} 
+                  className={`${viewFormat === 'reels' ? 'reels-card' : 'square-card'} ${isSelected ? 'selected' : ''}`}
+                  onClick={() => toggleExercise(video.id)}
+                >
                   <div className={viewFormat === 'reels' ? 'reels-card-bg' : 'square-card-bg'} 
                        style={video.imageUrl ? { backgroundImage: `url(${video.imageUrl})` } : { background: 'var(--bg-secondary)', border: '1px solid var(--border-color)' }}></div>
                   
@@ -274,31 +279,13 @@ export function Profile() {
                       <div className="reels-subtitle">
                         {video.dificuldade} • {video.grupo_muscular}
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
-                        <button 
-                          className="reels-btn" 
-                          onClick={() => toggleExercise(video.id)}
-                          style={selectedWorkoutIds.includes(video.id) ? { background: 'var(--text-primary)', color: 'var(--bg-primary)' } : {}}
-                        >
-                          {selectedWorkoutIds.includes(video.id) ? '✓ Adicionado' : '+ Adicionar'}
-                        </button>
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '1rem' }}>
                         <span style={{ fontWeight: '600', marginLeft: '1rem', whiteSpace: 'nowrap' }}>{video.reps}</span>
                       </div>
                     </div>
                   ) : (
                     // SQUARE FORMAT CONTENT
                     <>
-                      <div 
-                        className="square-add-overlay"
-                        onClick={() => toggleExercise(video.id)}
-                        style={selectedWorkoutIds.includes(video.id) ? { opacity: 1, background: 'var(--text-primary)', color: 'var(--bg-primary)' } : {}}
-                      >
-                        {selectedWorkoutIds.includes(video.id) ? (
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        ) : (
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                        )}
-                      </div>
                       <div className="square-card-content">
                         <h3 className="square-title">{video.titulo}</h3>
                         <div className="square-subtitle">
@@ -309,7 +296,7 @@ export function Profile() {
                     </>
                   )}
                 </div>
-              ))
+              )})
             )}
           </div>
         )}
@@ -329,6 +316,35 @@ export function Profile() {
                        : `${selectedWorkoutIds.length} Movimento(s) na Forja`}
                    </span>
                 </div>
+
+                {/* Preview de Exercícios Selecionados */}
+                {selectedWorkoutIds.length > 0 && (
+                  <div className="horizontal-preview-scroll" style={{ display: 'flex', gap: '1rem', overflowX: 'auto', paddingBottom: '0.5rem', marginBottom: '1.5rem' }}>
+                    {selectedWorkoutIds.map(id => {
+                      const video = MOCK_LIBRARY.find(v => v.id === id);
+                      if (!video) return null;
+                      return (
+                        <div key={id} style={{ flexShrink: 0, width: '140px', background: 'rgba(255,255,255,0.02)', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.1)', position: 'relative', transition: 'transform 0.2s', cursor: 'default' }}>
+                          <div style={{ width: '100%', height: '70px', backgroundImage: video.imageUrl ? `url(${video.imageUrl})` : 'none', backgroundColor: 'rgba(0,0,0,0.3)', backgroundSize: 'cover', backgroundPosition: 'center', borderTopLeftRadius: '5px', borderTopRightRadius: '5px' }}></div>
+                          <div style={{ padding: '0.5rem' }}>
+                            <div style={{ fontSize: '0.8rem', fontFamily: 'var(--font-heading)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{video.titulo}</div>
+                            <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>{video.reps}</div>
+                          </div>
+                          <button 
+                            type="button" 
+                            onClick={() => toggleExercise(id)} 
+                            style={{ position: 'absolute', top: '4px', right: '4px', background: 'rgba(0,0,0,0.6)', color: '#ff4444', border: 'none', borderRadius: '50%', width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'background 0.2s' }}
+                            title="Remover"
+                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0,0,0,0.8)'}
+                            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(0,0,0,0.6)'}
+                          >
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
                 
                 <form onSubmit={handleCreateTreino} style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-end', flexWrap: 'wrap' }}>
                    <div style={{ flex: '1 1 200px' }}>
