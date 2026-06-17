@@ -14,25 +14,33 @@ export class TreinoService {
       data: {
         nome: createTreinoDto.nome,
         categoria: createTreinoDto.categoria,
+        exercicios: createTreinoDto.exercicios ?? null,
       },
     });
     return novoTreino;
   }
 
   async findAll() {
-    // Busca todos os treinos cadastrados
-    return this.prisma.treino.findMany();
+    // Busca todos os treinos cadastrados ordenados do mais novo
+    return this.prisma.treino.findMany({ orderBy: { data_criacao: 'desc' } });
   }
 
   findOne(id: number) {
     return `This action returns a #${id} treino`;
   }
 
-  update(id: number, updateTreinoDto: UpdateTreinoDto) {
-    return `This action updates a #${id} treino`;
+  async update(id: number, updateTreinoDto: UpdateTreinoDto) {
+    return this.prisma.treino.update({
+      where: { id },
+      data: {
+        ...(updateTreinoDto.nome !== undefined && { nome: updateTreinoDto.nome }),
+        ...(updateTreinoDto.categoria !== undefined && { categoria: updateTreinoDto.categoria }),
+        ...(updateTreinoDto.exercicios !== undefined && { exercicios: updateTreinoDto.exercicios })
+      }
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} treino`;
+  async remove(id: number) {
+    return this.prisma.treino.delete({ where: { id } });
   }
 }

@@ -1,98 +1,84 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Kali App ⚔️
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+O **Kali App** (A Forja de Rituais) é um ecossistema completo focado em atletas de **Calistenia**. Ele permite aos usuários explorarem uma biblioteca de movimentos, forjarem "Rituais" (rotinas de treino customizadas) e acompanharem a conclusão de cada sessão com um layout dark mode imersivo e de alta performance.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🌟 Principais Funcionalidades
 
-## Description
+- **Library de Movimentos:** Explore os principais movimentos calistênicos categorizados por "escolas" (Membros Superiores, Membros Inferiores, Core, Movimentos Estáticos).
+- **Forja de Rituais:** Selecione movimentos diretamente da biblioteca e crie treinos customizados.
+- **Acompanhamento de Progresso:** Um sistema de checklist elegante, onde você tica os movimentos executados e assiste sua barra de progresso encher em tempo real.
+- **Gerenciamento Completo:** Capacidade de criar, editar (inline mode) e excluir rituais de forma orgânica e integrada.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🛠️ Tecnologias Utilizadas
 
-## Project setup
+A aplicação adota uma stack moderna e de alta performance:
 
-```bash
-$ yarn install
-```
+### Backend
+- **[NestJS](https://nestjs.com/):** Framework Node.js robusto, estruturado e escalável.
+- **[Prisma ORM](https://www.prisma.io/):** ORM que permite uma interação segura e tipada com o banco de dados.
+- **PostgreSQL:** Banco de dados relacional que garante a persistência robusta dos usuários, rituais e histórico de treinos.
 
-## Compile and run the project
+### Frontend
+- **[React 18](https://react.dev/):** Construção declarativa de interfaces de usuário ricas e reativas.
+- **[Vite](https://vitejs.dev/):** Ferramenta de build extremamente veloz com hot-reload (HMR) otimizado.
+- **CSS Vanilla Customizado:** Estilização premium com tema escuro (Dark Mode), glassmorphism, sombras sutis e micro-interações responsivas, dispensando frameworks pesados de utilitários.
 
-```bash
-# development
-$ yarn run start
+## 🚀 Como Rodar o Projeto Localmente
 
-# watch mode
-$ yarn run start:dev
+Siga o passo a passo abaixo para levantar tanto a API (Backend) quanto a interface (Frontend) em sua máquina local para testes e contribuição.
 
-# production mode
-$ yarn run start:prod
-```
+### 1. Pré-requisitos
+- **Node.js** (versão 18+ recomendada)
+- **PostgreSQL** instalado e rodando (local ou na nuvem)
 
-## Run tests
+### 2. Configurando o Backend (API)
+O servidor NestJS e as configurações do banco de dados ficam na raiz deste repositório.
 
-```bash
-# unit tests
-$ yarn run test
+1. Instale as dependências:
+   ```bash
+   npm install
+   ```
 
-# e2e tests
-$ yarn run test:e2e
+2. Configure a Conexão com o Banco:
+   Crie um arquivo `.env` na raiz do repositório contendo a URL de conexão do PostgreSQL. Substitua as credenciais pelas da sua máquina:
+   ```env
+   DATABASE_URL="postgresql://seu_usuario:sua_senha@localhost:5432/seu_banco?schema=public"
+   ```
 
-# test coverage
-$ yarn run test:cov
-```
+3. Sincronize as Tabelas (Prisma):
+   Ajuste o banco para bater com o Schema do Prisma:
+   ```bash
+   npx prisma db push
+   # (Caso precise criar histórico de migrações, use: npx prisma migrate dev)
+   ```
 
-## Deployment
+4. Suba o Servidor Backend:
+   ```bash
+   npm run start:dev
+   ```
+   > A API deve subir e ficar ouvindo em `http://localhost:3000`.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### 3. Configurando o Frontend (UI)
+O sistema React está inteiramente contido na sub-pasta `frontend/`.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+1. Entre no diretório do front:
+   ```bash
+   cd frontend
+   ```
 
-```bash
-$ yarn install -g @nestjs/mau
-$ mau deploy
-```
+2. Instale as dependências visuais:
+   ```bash
+   npm install
+   ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+3. Rode o servidor Vite:
+   ```bash
+   npm run dev
+   ```
+   > O frontend estará rodando e pronto para uso em `http://localhost:5173`.
+   
+## 📌 Contribuição
+Se você for clonar, sinta-se à vontade para expandir a `MOCK_LIBRARY` do front-end com novos exercícios e imagens, ou plugar o front para consumir novos endpoints Restful implementados no backend.
 
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+*Forjado para elevar os treinos de força corporal para o próximo nível.*

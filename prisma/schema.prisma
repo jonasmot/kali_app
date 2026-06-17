@@ -12,8 +12,29 @@ datasource db {
 }
 
 model Treino {
-  id              String   @id @default(uuid())
+  id              Int      @id @default(autoincrement())
   nome            String
   categoria       String
-  data_inicio        DateTime @default(now())
+  exercicios      Json?    // Array de exercícios com status de concluído
+  data_criacao    DateTime @default(now())
+  data_atualizacao DateTime @updatedAt
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  senha     String
+  name      String?
+  data_criacao DateTime @default(now())
+  data_atualizacao DateTime @updatedAt
+}
+
+model Exercicio {
+  id              Int      @id @default(autoincrement())
+  titulo          String
+  descricao       String?
+  videoUrl        String
+  dificuldade     String
+  grupo_muscular  String
+  data_criacao    DateTime @default(now())
 }

@@ -1,19 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 :root {
-  --bg-primary: #020617;      /* Deep dark navy */
-  --bg-secondary: #0f172a;    /* Slightly lighter navy */
-  --bg-card: rgba(30, 58, 138, 0.15); /* Glass navy effect */
-  --border-color: rgba(56, 189, 248, 0.15); /* Light blue border */
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
+  --bg-primary: #02050a;      /* Deep midnight almost black */
+  --bg-secondary: #060a13;    /* Somber midnight blue */
+  --bg-card: rgba(10, 15, 24, 0.6); /* Ghostly glass */
+  --border-color: rgba(148, 163, 184, 0.15); /* Moonlight border */
+  --text-primary: #e2e8f0;    /* Silver/Pale white */
+  --text-secondary: #64748b;  /* Muted slate */
   
-  /* Vibrant sky blue accent */
-  --accent-color: #38bdf8;
-  --accent-glow: rgba(56, 189, 248, 0.25);
-  --danger-color: #f43f5e;
+  /* Sporty silver/moonlight accent */
+  --accent-color: #cbd5e1;
+  --accent-glow: rgba(203, 213, 225, 0.15);
+  --danger-color: #e11d48;    /* Sporty crimson */
   
-  --font-main: 'Outfit', sans-serif;
+  --font-main: 'Roboto', sans-serif;
+  --font-heading: 'Roboto', sans-serif;
 }
 
 * {
@@ -32,8 +33,9 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
 }
 
 button {
@@ -50,6 +52,7 @@ input, select, textarea {
 
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
