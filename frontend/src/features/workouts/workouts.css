@@ -1,0 +1,242 @@
+.kali-workouts-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.kali-workouts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.kali-workouts-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.kali-workout-card {
+  padding: var(--space-lg);
+}
+
+.kali-workout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+
+.kali-workout-title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.kali-workout-actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.kali-icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.kali-icon-btn:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.kali-icon-btn.text-danger:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+}
+
+.kali-workout-edit-name {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  width: 100%;
+}
+
+.kali-workout-progress-section {
+  margin-bottom: var(--space-lg);
+}
+
+.kali-workout-progress-text {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-xs);
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.kali-workout-exercises {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.kali-workout-exercise-item {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm);
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.kali-workout-exercise-item.concluido {
+  opacity: 0.6;
+  border-color: var(--success);
+}
+
+.kali-workout-exercise-details {
+  display: flex;
+  flex-direction: column;
+  margin-left: var(--space-sm);
+}
+
+.kali-exercise-name {
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.kali-workout-exercise-item.concluido .kali-exercise-name {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Custom Checkbox */
+.kali-checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 24px;
+  cursor: pointer;
+  user-select: none;
+  height: 24px;
+}
+
+.kali-checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.kali-checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 24px;
+  background-color: var(--bg-elevated);
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.kali-checkbox-container:hover input ~ .kali-checkmark {
+  border-color: var(--accent-light);
+}
+
+.kali-checkbox-container input:checked ~ .kali-checkmark {
+  background-color: var(--success);
+  border-color: var(--success);
+}
+
+.kali-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.kali-checkbox-container input:checked ~ .kali-checkmark:after {
+  display: block;
+}
+
+.kali-checkbox-container .kali-checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Form Styles */
+.kali-workout-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.kali-exercise-list-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-xs);
+}
+
+.kali-selector-item {
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-primary);
+}
+.kali-selector-item:last-child {
+  border-bottom: none;
+}
+
+.kali-selector-header {
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  cursor: pointer;
+}
+
+.kali-selector-header:hover {
+  background: var(--bg-elevated);
+}
+
+.kali-selector-config {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  display: flex;
+  gap: var(--space-md);
+  border-top: 1px dashed var(--border-color);
+}
+
+.kali-config-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.kali-config-group label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.kali-config-group input {
+  width: 60px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  text-align: center;
+}

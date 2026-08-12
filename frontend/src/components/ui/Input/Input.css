@@ -1,0 +1,47 @@
+.kali-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+  width: 100%;
+}
+
+.kali-input-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.kali-input-required {
+  color: var(--accent-primary);
+}
+
+.kali-input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--border-color);
+  color: var(--text-primary);
+  padding: var(--space-sm) 0;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.kali-input:focus {
+  border-bottom-color: var(--border-focus);
+}
+
+.kali-input::placeholder {
+  color: var(--text-muted);
+}
+
+.kali-input--error {
+  border-bottom-color: var(--danger);
+}
+
+.kali-input-error-msg {
+  color: var(--danger);
+  font-size: 0.75rem;
+  margin-top: 4px;
+}

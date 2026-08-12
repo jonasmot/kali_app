@@ -1,0 +1,80 @@
+.kali-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-main);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.kali-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.kali-button--full-width {
+  width: 100%;
+}
+
+/* Variants */
+.kali-button--primary {
+  background-color: var(--accent-primary);
+  color: #fff;
+}
+.kali-button--primary:hover:not(:disabled) {
+  background-color: var(--accent-light);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.kali-button--secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+.kali-button--secondary:hover:not(:disabled) {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.kali-button--danger {
+  background-color: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+.kali-button--danger:hover:not(:disabled) {
+  background-color: var(--danger);
+  color: #fff;
+}
+
+/* Sizes */
+.kali-button--sm {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.875rem;
+}
+.kali-button--md {
+  padding: var(--space-sm) var(--space-md);
+  font-size: 1rem;
+}
+.kali-button--lg {
+  padding: var(--space-md) var(--space-lg);
+  font-size: 1.125rem;
+}
+
+/* Spinner */
+.kali-button__spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

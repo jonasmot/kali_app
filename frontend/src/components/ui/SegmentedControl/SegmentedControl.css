@@ -1,0 +1,44 @@
+.kali-segmented-control {
+  display: flex;
+  position: relative;
+  background-color: var(--bg-secondary);
+  padding: 4px;
+  border-radius: 24px;
+  width: auto;
+  min-width: 200px;
+}
+
+.kali-segmented-indicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  background-color: var(--bg-elevated);
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 1;
+}
+
+.kali-segmented-btn {
+  flex: 1;
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-main);
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.kali-segmented-btn:hover {
+  color: var(--text-secondary);
+}
+
+.kali-segmented-btn.active {
+  color: var(--text-primary);
+}

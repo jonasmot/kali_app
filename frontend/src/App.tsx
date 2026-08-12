@@ -1,22 +1,34 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Login } from './pages/Login';
-import { Register } from './pages/Register';
-import { Profile } from './pages/Profile';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 import { AuthProvider } from './contexts/AuthContext';
+import { AppShell } from './components/layout/AppShell';
+import { ProtectedRoute } from './components/layout/ProtectedRoute';
+import { LoginPage } from './features/auth/LoginPage';
+import { RegisterPage } from './features/auth/RegisterPage';
+import { WorkoutsPage } from './features/workouts/WorkoutsPage';
+import { ExercisesPage } from './features/exercises/ExercisesPage';
 
-function App() {
+import { ProfilePage } from './features/profile/ProfilePage';
+
+const App: React.FC = () => {
   return (
     <AuthProvider>
-      <Router>
+      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Profile />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          
+          <Route element={<ProtectedRoute><AppShell /></ProtectedRoute>}>
+            <Route path="/treinos" element={<WorkoutsPage />} />
+            <Route path="/exercicios" element={<ExercisesPage />} />
+            <Route path="/perfil" element={<ProfilePage />} />
+          </Route>
+          
+          <Route path="*" element={<Navigate to="/treinos" replace />} />
         </Routes>
-      </Router>
+      </BrowserRouter>
     </AuthProvider>
   );
-}
+};
 
 export default App;

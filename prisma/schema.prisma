@@ -1,7 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
+// ============================================
+// Kali App — Prisma Schema
+// ============================================
+// Modelos do banco de dados PostgreSQL.
 
 generator client {
   provider = "prisma-client-js"
@@ -11,30 +11,76 @@ datasource db {
   provider = "postgresql"
 }
 
-model Treino {
-  id              Int      @id @default(autoincrement())
-  nome            String
-  categoria       String
-  exercicios      Json?    // Array de exercícios com status de concluído
-  data_criacao    DateTime @default(now())
-  data_atualizacao DateTime @updatedAt
+/// Tipos de perfil do sistema: 1 = Aluno, 2 = Professor, 3 = Admin
+model TipoPerfil {
+  id       Int       @id @default(autoincrement())
+  nome     String    @unique
+  usuarios Usuario[]
+
+  @@map("tipos_perfil")
 }
 
+/// Usuário da plataforma.
 model Usuario {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  senha     String
-  name      String?
-  data_criacao DateTime @default(now())
-  data_atualizacao DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  email          String   @unique
+  senha          String
+  nome           String
+  tipo_perfil_id Int      @default(1)
+  criado_em      DateTime @default(now())
+  atualizado_em  DateTime @updatedAt
+
+  tipo_perfil TipoPerfil @relation(fields: [tipo_perfil_id], references: [id])
+  treinos     Treino[]
+  exercicios_criados Exercicio[] @relation("AutorExercicio")
+
+  @@map("usuarios")
 }
 
+/// Exercício de calistenia. Pode ser associado a múltiplos treinos.
 model Exercicio {
-  id              Int      @id @default(autoincrement())
-  titulo          String
-  descricao       String?
-  videoUrl        String
-  dificuldade     String
-  grupo_muscular  String
-  data_criacao    DateTime @default(now())
+  id             Int      @id @default(autoincrement())
+  titulo         String
+  descricao      String?
+  grupo_muscular String
+  video_url      String?
+  autor_id       Int?
+  criado_em      DateTime @default(now())
+
+  autor   Usuario?          @relation("AutorExercicio", fields: [autor_id], references: [id], onDelete: SetNull)
+  treinos TreinoExercicio[]
+
+  @@map("exercicios")
+}
+
+/// Treino (rotina de exercícios) pertencente a um usuário.
+model Treino {
+  id            Int      @id @default(autoincrement())
+  nome          String
+  descricao     String?
+  usuario_id    Int
+  criado_em     DateTime @default(now())
+  atualizado_em DateTime @updatedAt
+
+  usuario    Usuario           @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+  exercicios TreinoExercicio[]
+
+  @@map("treinos")
+}
+
+/// Tabela de junção entre Treino e Exercicio.
+model TreinoExercicio {
+  id           Int     @id @default(autoincrement())
+  treino_id    Int
+  exercicio_id Int
+  concluido    Boolean @default(false)
+  ordem        Int     @default(0)
+  series       Int?
+  repeticoes   Int?
+
+  treino    Treino    @relation(fields: [treino_id], references: [id], onDelete: Cascade)
+  exercicio Exercicio @relation(fields: [exercicio_id], references: [id])
+
+  @@unique([treino_id, exercicio_id])
+  @@map("treino_exercicios")
 }

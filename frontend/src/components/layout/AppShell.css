@@ -1,0 +1,52 @@
+.kali-app-shell {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  flex-direction: column;
+}
+
+.kali-top-nav {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-xl) 0 var(--space-md);
+  width: 100%;
+}
+
+.kali-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.kali-content-container {
+  padding: var(--space-xl);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@media (max-width: 768px) {
+  .kali-app-shell {
+    flex-direction: column;
+  }
+  
+  .kali-main-content {
+    height: calc(100vh - 60px); /* Adjust for bottom nav */
+    padding-bottom: 60px;
+  }
+  
+  .kali-content-container {
+    padding: var(--space-md);
+  }
+}
+
+.kali-fullscreen-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: var(--text-muted);
+  background-color: var(--bg-primary);
+}
