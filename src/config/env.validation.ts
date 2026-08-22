@@ -33,7 +33,15 @@ class EnvironmentVariables {
 
   @IsString()
   @IsOptional()
-  VIDEOS_PATH?: string;
+  SUPABASE_URL?: string;
+
+  @IsString()
+  @IsOptional()
+  SUPABASE_ANON_KEY?: string;
+
+  @IsString()
+  @IsOptional()
+  SUPABASE_BUCKET?: string;
 }
 
 export function validate(config: Record<string, unknown>) {

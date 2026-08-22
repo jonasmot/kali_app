@@ -7,23 +7,41 @@ interface ExerciseCardProps {
   onToggleSelect?: () => void;
 }
 
+/**
+ * Constrói a URL pública do vídeo a partir do Supabase Storage.
+ * VITE_SUPABASE_STORAGE_URL aponta para o bucket público, ex:
+ * https://[ref].supabase.co/storage/v1/object/public/kali-videos
+ */
+function buildVideoUrl(videoUrl: string | null): string | undefined {
+  if (!videoUrl) return undefined;
+
+  // Se já for uma URL completa (http/https), usar diretamente
+  if (videoUrl.startsWith('http')) return videoUrl;
+
+  const storageBase = import.meta.env.VITE_SUPABASE_STORAGE_URL;
+  if (storageBase) return `${storageBase}/${videoUrl}`;
+
+  // Fallback: backend local (desenvolvimento)
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  return `${apiUrl}/videos/${videoUrl}`;
+}
+
 export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercicio, isSelected, onToggleSelect }) => {
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-  const videoUrl = exercicio.video_url ? `${API_URL}/videos/${exercicio.video_url}` : undefined;
+  const videoUrl = buildVideoUrl(exercicio.video_url);
 
   return (
-    <div 
+    <div
       className={`kali-exercise-card ${isSelected ? 'selected' : ''}`}
       onClick={onToggleSelect}
     >
       <div className="kali-exercise-media">
         {videoUrl ? (
-          <video 
-            src={videoUrl} 
+          <video
+            src={videoUrl}
             className="kali-exercise-video"
-            autoPlay 
-            loop 
-            muted 
+            autoPlay
+            loop
+            muted
             playsInline
           />
         ) : (

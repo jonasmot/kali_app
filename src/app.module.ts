@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
@@ -12,6 +10,9 @@ import { ExerciciosModule } from './exercicios/exercicios.module';
 import { TreinosModule } from './treinos/treinos.module';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 
+// Vídeos são servidos pelo Supabase Storage (bucket público).
+// O módulo ServeStatic foi removido pois não é mais necessário.
+
 @Module({
   imports: [
     ConfigModule,
@@ -20,18 +21,6 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
     UsuariosModule,
     ExerciciosModule,
     TreinosModule,
-    ServeStaticModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        const videosPath = configService.get<string>('VIDEOS_PATH', './videos');
-        return [
-          {
-            rootPath: videosPath,
-            serveRoot: '/videos',
-          },
-        ];
-      },
-    }),
   ],
   controllers: [AppController],
   providers: [

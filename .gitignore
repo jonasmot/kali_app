@@ -36,3 +36,9 @@ coverage/
 # Mobile (re-add when needed)
 frontend/android/
 frontend/ios/
+
+# Videos locais (hospedados no Supabase Storage)
+videos/
+*.mp4
+*.webm
+*.mov
