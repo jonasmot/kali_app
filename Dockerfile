@@ -10,19 +10,20 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 
 # Copiar apenas os arquivos de dependências primeiro (cache de camadas)
-COPY package*.json ./
+COPY package.json yarn.lock ./
 COPY prisma ./prisma/
 
-RUN npm ci
+# Substitui o npm ci pelo equivalente no Yarn
+RUN yarn install --frozen-lockfile
 
 # Copiar o código-fonte e fazer o build
 COPY . .
 
 # Gerar o Prisma Client ANTES da compilação do TypeScript
-RUN npx prisma generate
+RUN yarn prisma generate
 
 # Fazer o build do NestJS
-RUN npm run build
+RUN yarn build
 
 # --- Estágio 2: Runtime ---
 FROM node:22-alpine AS runner
