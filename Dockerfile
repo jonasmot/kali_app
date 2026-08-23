@@ -17,10 +17,12 @@ RUN npm ci
 
 # Copiar o código-fonte e fazer o build
 COPY . .
-RUN npm run build
 
-# Gerar o Prisma Client para produção
+# Gerar o Prisma Client ANTES da compilação do TypeScript
 RUN npx prisma generate
+
+# Fazer o build do NestJS
+RUN npm run build
 
 # --- Estágio 2: Runtime ---
 FROM node:22-alpine AS runner
