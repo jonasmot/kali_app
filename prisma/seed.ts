@@ -24,33 +24,33 @@ const perfis = [
 const exercicios = [
   {
     titulo: 'Pull Ups',
-    descricao: ' ',
+    descricao: 'Barra fixa focada em dorsais e bíceps.',
     grupo_muscular: 'Costas',
-    video_url: 'PullUps.mp4',
+    video_url: 'PullUps.gif',
   },
   {
     titulo: 'Push Ups',
-    descricao: ' ',
+    descricao: 'Flexão de braço tradicional para peito e tríceps.',
     grupo_muscular: 'Peito',
-    video_url: 'PushUps.mp4',
+    video_url: 'PushUps.gif',
   },
   {
     titulo: 'Dips',
-    descricao: ' ',
+    descricao: 'Mergulho nas paralelas, excelente para tríceps e peitoral inferior.',
     grupo_muscular: 'Peito',
-    video_url: 'Dips.mp4',
+    video_url: 'Dips.gif',
   },
   {
     titulo: 'Muscle Ups',
-    descricao: ' ',
+    descricao: 'Exercício avançado combinando barra e mergulho.',
     grupo_muscular: 'Costas',
-    video_url: 'MuscleUps.mp4',
+    video_url: 'MuscleUps.gif',
   },
   {
     titulo: 'L-Sit',
-    descricao: ' ',
+    descricao: 'Isometria no solo focada em core e flexores do quadril.',
     grupo_muscular: 'Abdômen',
-    video_url: 'Lsit.mp4',
+    video_url: 'Lsit.gif',
   },
 ];
 

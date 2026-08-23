@@ -36,17 +36,15 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercicio, isSelecte
     >
       <div className="kali-exercise-media">
         {videoUrl ? (
-          <video
+          <img
             src={videoUrl}
+            alt={exercicio.titulo}
             className="kali-exercise-video"
-            autoPlay
-            loop
-            muted
-            playsInline
+            style={{ imageRendering: 'pixelated', objectFit: 'cover', width: '100%', height: '100%' }}
           />
         ) : (
           <div className="kali-exercise-placeholder">
-            <span>Sem vídeo</span>
+            <span>Sem imagem</span>
           </div>
         )}
         <div className="kali-exercise-overlay">
