@@ -1,73 +1,50 @@
-# React + TypeScript + Vite
+# Kali App - Frontend 🖥️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🚀 Tecnologias
 
-Currently, two official plugins are available:
+- **React 19**
+- **Vite 8**
+- **TypeScript**
+- **React Router Dom**
+- **Context API**
+- **CSS Modules / Custom Properties**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🏗️ Estrutura de Diretórios (Features)
 
-## React Compiler
+A aplicação segue uma arquitetura baseada em *Features*, garantindo que cada escopo do projeto tenha seus componentes, estilos e lógicas isolados:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── assets/         # Ícones, imagens estáticas
+├── components/     # Componentes de UI genéricos (Button, Input, Card, Header)
+├── contexts/       # Context API (AuthContext)
+├── features/       # Módulos principais da aplicação
+│   ├── auth/       # Telas e lógicas de Login/Registro
+│   ├── exercises/  # Listagem de exercícios e Modal de criação de treino
+│   └── workouts/   # Dashboard de treinos e acompanhamento de séries
+├── services/       # Integração com a API (fetch wrapper com JWT)
+├── styles/         # Variáveis CSS globais e reset
+├── types/          # Interfaces TypeScript globais (Usuario, Treino, Exercicio)
+└── App.tsx         # Rotas e provedores base
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔐 Autenticação e Segurança
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+A comunicação com a API backend é feita através de **JWT (JSON Web Tokens)**:
+- O token é armazenado no `localStorage`.
+- Todas as requisições autenticadas (através de `services/api.ts`) anexam automaticamente o token no cabeçalho `Authorization: Bearer <token>`.
+- Componentes bloqueados verificam o estado de autenticação consumindo o `useAuth()` e redirecionam para o `/login` caso o usuário não esteja logado.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🎨 UI/UX e Feedbacks
+- **Toasts / Banners Visuais**: A aplicação trata de erros exibindo diretamente na interface de forma amigável.
+- **Mídia**: Os exercícios são demonstrados em formato GIF (Estilo *Pixel Art* via CSS `image-rendering: pixelated`) puxados remotamente, visando baixo consumo de banda e animação ininterrupta.
+
+## 🛠️ Como rodar localmente
+
+```bash
+# 1. Instalar as dependências
+yarn install
+
+# 2. Rodar o servidor de desenvolvimento
+yarn dev
 ```
