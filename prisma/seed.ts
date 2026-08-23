@@ -15,11 +15,7 @@ const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
-const perfis = [
-  { id: 1, nome: 'Aluno' },
-  { id: 2, nome: 'Professor' },
-  { id: 3, nome: 'Admin' }
-];
+// Perfis removidos da aplicação
 
 const exercicios = [
   {
@@ -55,16 +51,6 @@ const exercicios = [
 ];
 
 async function main() {
-  console.log('🌱 Iniciando seed de perfis...');
-  for (const perfil of perfis) {
-    await prisma.tipoPerfil.upsert({
-      where: { nome: perfil.nome },
-      update: {},
-      create: perfil,
-    });
-    console.log(`  ✅ Perfil: ${perfil.nome}`);
-  }
-
   console.log('🌱 Iniciando seed de exercícios...');
   
   // Limpar exercícios para não duplicar se rodar novamente sem reset

@@ -11,7 +11,6 @@ export const RegisterPage: React.FC = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [tipo_perfil_id, setTipoPerfilId] = useState<number>(1);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
@@ -23,11 +22,15 @@ export const RegisterPage: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await api.auth.register({ nome, email, senha, tipo_perfil_id });
+      const response = await api.auth.register({ nome, email, senha });
       login(response.access_token, response.usuario);
       navigate('/treinos');
     } catch (err: any) {
-      setError(err.message || 'Erro ao fazer cadastro');
+      if (Array.isArray(err.message)) {
+        setError(err.message[0]); // Pega o primeiro erro retornado pelo class-validator
+      } else {
+        setError(err.message || 'Erro ao fazer cadastro');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -61,18 +64,6 @@ export const RegisterPage: React.FC = () => {
             onChange={e => setSenha(e.target.value)} 
             required 
           />
-
-          <div className="kali-input-group">
-            <label className="kali-label">Tipo de Perfil</label>
-            <select 
-              className="kali-input" 
-              value={tipo_perfil_id} 
-              onChange={e => setTipoPerfilId(Number(e.target.value))}
-            >
-              <option value={1}>Aluno</option>
-              <option value={2}>Professor</option>
-            </select>
-          </div>
           
           {error && <div className="kali-auth-error">{error}</div>}
           

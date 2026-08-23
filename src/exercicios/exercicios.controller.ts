@@ -1,8 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, Query, ParseIntPipe } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { ExerciciosService } from './exercicios.service';
-import { CreateExercicioDto } from './dto/create-exercicio.dto';
-import { UpdateExercicioDto } from './dto/update-exercicio.dto';
 
 @ApiTags('exercicios')
 @ApiBearerAuth()
@@ -32,33 +30,4 @@ export class ExerciciosController {
     return this.exerciciosService.findOne(id);
   }
 
-  /**
-   * Creates a new exercise.
-   */
-  @Post()
-  @ApiOperation({ summary: 'Create a new exercise' })
-  @ApiResponse({ status: 201, description: 'The exercise has been successfully created.' })
-  create(@Body() createExercicioDto: CreateExercicioDto) {
-    return this.exerciciosService.create(createExercicioDto);
-  }
-
-  /**
-   * Updates an exercise by ID.
-   */
-  @Patch(':id')
-  @ApiOperation({ summary: 'Update an exercise' })
-  @ApiResponse({ status: 200, description: 'The exercise has been successfully updated.' })
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateExercicioDto: UpdateExercicioDto) {
-    return this.exerciciosService.update(id, updateExercicioDto);
-  }
-
-  /**
-   * Deletes an exercise by ID.
-   */
-  @Delete(':id')
-  @ApiOperation({ summary: 'Delete an exercise' })
-  @ApiResponse({ status: 200, description: 'The exercise has been successfully deleted.' })
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.exerciciosService.remove(id);
-  }
 }

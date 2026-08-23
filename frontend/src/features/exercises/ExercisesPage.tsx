@@ -14,6 +14,7 @@ export const ExercisesPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedExerciseIds, setSelectedExerciseIds] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,7 +61,8 @@ export const ExercisesPage: React.FC = () => {
       navigate('/workouts');
     } catch (error) {
       console.error('Erro ao criar treino:', error);
-      alert('Erro ao criar treino. Verifique os dados e tente novamente.');
+      setErrorMessage('Erro ao criar treino. Verifique os dados e tente novamente.');
+      setTimeout(() => setErrorMessage(''), 5000);
     }
   };
 
@@ -99,12 +101,20 @@ export const ExercisesPage: React.FC = () => {
         </div>
       )}
 
+      {errorMessage && (
+        <div className="kali-alert kali-alert-error" style={{ position: 'fixed', bottom: '80px', right: '20px', zIndex: 1000, padding: '12px', background: '#ff4d4f', color: '#fff', borderRadius: '4px', boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>
+          {errorMessage}
+          <button onClick={() => setErrorMessage('')} style={{ marginLeft: '12px', background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}>✖</button>
+        </div>
+      )}
+
       {/* FAB - Expanded on hover */}
       <button 
         className="kali-fab" 
         onClick={() => {
           if (selectedExerciseIds.length === 0) {
-            alert('Selecione pelo menos um exercício clicando neles para criar um treino.');
+            setErrorMessage('Selecione pelo menos um exercício clicando neles para criar um treino.');
+            setTimeout(() => setErrorMessage(''), 5000);
             return;
           }
           setIsModalOpen(true);

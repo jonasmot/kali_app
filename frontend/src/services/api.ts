@@ -47,9 +47,7 @@ export const api = {
     list: (grupo_muscular?: string) => {
       const qs = grupo_muscular && grupo_muscular !== 'Todos' ? `?grupo_muscular=${encodeURIComponent(grupo_muscular)}` : '';
       return fetchWithAuth<Exercicio[]>(`/exercicios${qs}`, { method: 'GET' });
-    },
-    create: (data: Partial<Exercicio>) =>
-      fetchWithAuth<Exercicio>('/exercicios', { method: 'POST', body: JSON.stringify(data) })
+    }
   },
   treinos: {
     list: () => fetchWithAuth<Treino[]>('/treinos', { method: 'GET' }),

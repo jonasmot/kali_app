@@ -25,7 +25,11 @@ export const LoginPage: React.FC = () => {
       login(response.access_token, response.usuario);
       navigate('/treinos');
     } catch (err: any) {
-      setError(err.message || 'Erro ao fazer login');
+      if (Array.isArray(err.message)) {
+        setError(err.message[0]);
+      } else {
+        setError(err.message || 'Erro ao fazer login');
+      }
     } finally {
       setIsLoading(false);
     }

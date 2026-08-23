@@ -34,7 +34,7 @@ export class UsuariosService {
   async criar(data: RegisterDto): Promise<Usuario> {
     const existente = await this.buscarPorEmail(data.email);
     if (existente) {
-      throw new ConflictException('Email já está em uso');
+      throw new ConflictException('Este e-mail já está cadastrado na plataforma.');
     }
 
     const saltRounds = 10;

@@ -1,106 +1,79 @@
 # Kali App 🏋️
 
-Plataforma de treino de calistenia — gerencie exercícios, monte rotinas e acompanhe seu progresso.
+Plataforma de treino de calistenia — selecione exercícios focados, monte suas rotinas e acompanhe seu progresso de forma simples e direta.
 
-## Stack
+A aplicação foi refinada para focar na experiência do **Aluno**. Conta com 5 exercícios oficiais (Pull Ups, Push Ups, Dips, Muscle Ups, L-Sit) demonstrados em **Pixel Art GIFs** e um construtor de treinos seguro.
 
-| Camada | Tecnologia |
-|:---|:---|
-| Backend | NestJS 11, TypeScript, Prisma 7, PostgreSQL |
-| Frontend | React 19, Vite 8, TypeScript, CSS Custom Properties |
-| Auth | JWT + Passport.js (Local + JWT) |
-| Docs API | Swagger/OpenAPI em `/api` |
+## 🚀 Acesse a Plataforma (Deploy)
 
-## Setup Rápido
+- **Frontend (Vercel):** [https://jxn4s-kali.vercel.app](https://jxn4s-kali.vercel.app)
+- **Backend API (Railway):** [https://kali-app.up.railway.app](https://kali-app.up.railway.app)
+- **Swagger Docs:** [https://kali-app.up.railway.app/api](https://kali-app.up.railway.app/api)
+
+## 🛠️ Tecnologias e Stack
+
+| Camada | Tecnologia | Hospedagem |
+|:---|:---|:---|
+| **Backend** | NestJS 11, TypeScript, Prisma ORM, Passport (JWT) | Railway |
+| **Frontend** | React 19, Vite 8, TypeScript, Context API | Vercel |
+| **Banco de Dados** | PostgreSQL (com `@prisma/adapter-pg`) | Supabase |
+| **Arquivos (Mídia)**| Cloud Storage | Supabase Storage |
+
+## 🏗️ Arquitetura
+
+O Kali App segue uma separação clara entre cliente e servidor:
+- **NestJS (Backend):** Arquitetura modular focada em segurança. Endpoints de treino e usuário são protegidos por JWT (`JwtAuthGuard`). Um usuário só tem permissão para ver, editar ou apagar os seus próprios treinos.
+- **React (Frontend):** Usa `Vite` para build rápido. Adota o padrão de Features (`src/features`) separando Autenticação, Exercícios e Treinos. Substitui feedbacks nativos do navegador (`alert()`) por tratamento de erros elegantes e Toasts focados em UX.
+
+## ⚙️ Rodando Localmente
 
 ### Pré-requisitos
-
 - Node.js 20+
-- PostgreSQL rodando localmente
-- Yarn (frontend)
+- Um banco de dados PostgreSQL (ex: Supabase)
+- Yarn (para rodar o Frontend)
 
 ### 1. Backend
 
 ```bash
-# Instalar dependências
+# Na pasta raiz, instale as dependências
 npm install
 
-# Configurar variáveis de ambiente
+# Configure as variáveis de ambiente
 cp .env.example .env
-# Editar .env com suas credenciais do PostgreSQL
+# Edite o .env adicionando o DATABASE_URL do seu banco Supabase
 
-# Gerar Prisma Client
+# Sincronize o banco e crie os exercícios base
+npx prisma db push
 npx prisma generate
-
-# Aplicar migrações
-npx prisma migrate dev
-
-# Popular banco com exercícios
 npx prisma db seed
 
-# Iniciar servidor (modo desenvolvimento)
+# Inicie o servidor
 npm run start:dev
 ```
-
-O servidor estará em `http://localhost:3000` e a documentação Swagger em `http://localhost:3000/api`.
+O backend ficará disponível em `http://localhost:3000`.
 
 ### 2. Frontend
 
 ```bash
 cd frontend
 
-# Instalar dependências
+# Instale as dependências
 yarn install
 
-# Iniciar dev server
+# Crie um arquivo .env na pasta frontend e aponte para o backend local
+echo "VITE_API_URL=http://localhost:3000" > .env
+
+# Inicie o frontend
 yarn dev
 ```
+O frontend ficará disponível em `http://localhost:5173`.
 
-O frontend estará em `http://localhost:5173`.
+## 🛡️ Segurança Aplicada
+- Senhas são criptografadas em `Bcrypt` no momento de cadastro.
+- Não há retorno de senhas e hashes em requisições de API (`exclude`).
+- E-mails duplicados são rejeitados via API (com `ConflictException` sendo devolvida e exibida no Frontend).
+- Autorização estrita por ID (usuários não conseguem mutar o estado de outros perfis).
 
-## Documentação
-
-- [Arquitetura](docs/ARCHITECTURE.md) — Visão geral dos módulos e fluxos
-- [Swagger](http://localhost:3000/api) — Documentação interativa da API (quando o servidor está rodando)
-
-## Estrutura do Projeto
-
-```
-kali_app/
-├── prisma/              # Schema e migrações do banco
-├── src/                 # Backend NestJS
-│   ├── auth/            # Autenticação (JWT + Passport)
-│   ├── common/          # Guards, decorators, filters
-│   ├── config/          # Validação de env vars
-│   ├── exercicios/      # CRUD de exercícios
-│   ├── prisma/          # Serviço de banco de dados
-│   ├── treinos/         # CRUD de treinos (scoped por usuário)
-│   └── usuarios/        # Gestão de usuários
-├── frontend/            # Frontend React + Vite
-│   └── src/
-│       ├── components/  # UI components + layout
-│       ├── features/    # Páginas por funcionalidade
-│       ├── services/    # Cliente API centralizado
-│       └── styles/      # Design system
-└── docs/                # Documentação
-```
-
-## Scripts
-
-### Backend
-| Script | Descrição |
-|:---|:---|
-| `npm run start:dev` | Servidor com hot reload |
-| `npm run build` | Build de produção |
-| `npm run seed` | Popular banco com exercícios |
-
-### Frontend
-| Script | Descrição |
-|:---|:---|
-| `yarn dev` | Dev server com HMR |
-| `yarn build` | Build de produção |
-| `yarn lint` | Verificação de lint |
-
-## Licença
+## 📄 Licença
 
 MIT

@@ -1,7 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateExercicioDto } from './dto/create-exercicio.dto';
-import { UpdateExercicioDto } from './dto/update-exercicio.dto';
 
 @Injectable()
 export class ExerciciosService {
@@ -31,38 +29,4 @@ export class ExerciciosService {
     return exercicio;
   }
 
-  /**
-   * Creates a new exercise.
-   * @param data The data to create the exercise.
-   * @returns The created exercise.
-   */
-  async create(data: CreateExercicioDto) {
-    return this.prisma.exercicio.create({ data });
-  }
-
-  /**
-   * Updates an existing exercise.
-   * @param id The ID of the exercise to update.
-   * @param data The data to update.
-   * @returns The updated exercise.
-   */
-  async update(id: number, data: UpdateExercicioDto) {
-    await this.findOne(id); // Check existence
-    return this.prisma.exercicio.update({
-      where: { id },
-      data,
-    });
-  }
-
-  /**
-   * Deletes an exercise.
-   * @param id The ID of the exercise to delete.
-   * @returns The deleted exercise.
-   */
-  async remove(id: number) {
-    await this.findOne(id); // Check existence
-    return this.prisma.exercicio.delete({
-      where: { id },
-    });
-  }
 }
